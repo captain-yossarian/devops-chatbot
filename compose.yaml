@@ -1,0 +1,17 @@
+services:
+  # Service 1: Streamlit web UI, built as its own image
+  web:
+    build: ./app
+    image: devops-chatbot-web:latest
+    ports:
+      - "8050:8050"
+    depends_on:
+      - llm
+
+  # Service 2: LLM served locally by Docker Model Runner.
+  # Compose injects LLM_URL and LLM_MODEL into services that depend on it.
+  llm:
+    provider:
+      type: model
+      options:
+        model: ai/smollm2
